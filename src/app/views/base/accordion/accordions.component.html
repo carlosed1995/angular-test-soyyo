@@ -1,0 +1,103 @@
+<c-row ngPreserveWhitespaces>
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-body>
+         <c-accordion class="shadow accordion-custom">
+            <c-accordion-item class="c-accordion-item" *ngFor="let item of items; let i = index;" (click)="getEntities(item)">
+              <ng-template cTemplateId="accordionHeader">
+                Cliente #{{item}}
+              </ng-template>
+              <ng-template cTemplateId="accordionBody">
+    
+                  <table [striped]="true" cTable>
+                    <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Logo</th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Contacto</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Identificación</th>
+                      <th scope="col">Expiración</th>
+                      <th scope="col">Dirección IP</th>
+                      <th scope="col">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let entitie of entities">
+                      <td>{{entitie.entityId}}</td>
+                      <th scope="row"><img class="logo" *ngIf="entitie.logo" src="{{entitie.logo}}"></th>
+                      <td>{{entitie.name}}</td>
+                      <td>{{entitie.contactName}}</td>
+                      <td>{{entitie.contactMail}}</td>
+                      <td>{{entitie.identificationNumber}}</td>
+                      <td>{{entitie.expirationDate}}</td>
+                      <td>{{entitie.ipAddress}}</td> 
+                      <td>
+                        <span cButton color="info" (click)="openEntity(entity)">Editar</span>
+                        <span cButton color="danger" (click)="delete(entitie.contactName)">Eliminar</span>
+                      </td> 
+                    </tr>
+                    </tbody>
+                  </table>
+                <span></span>
+                <span></span>
+               
+              </ng-template>
+            </c-accordion-item>
+          </c-accordion> 
+      </c-card-body>
+    </c-card>
+  </c-col>
+  <ng-template #entity let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Titulo Modal</h4>
+        <button class="close" aria-label="close" type="button" (click)="modal.dismiss();setInitialValueForm();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="entityForm" cForm>
+        <h5>Add toast with following props:</h5>
+
+        <c-input-group>
+          <span cInputGroupText>Nombre</span>
+          <input cFormControl [(ngModel)]="entities[0].name" formControlName="name" id="name" type="text">
+        </c-input-group>
+        <c-input-group>
+          <span cInputGroupText>Contacto</span>
+          <input cFormControl [(ngModel)]="entities[0].contactName" formControlName="contactName" id="contactName" type="text">
+        </c-input-group>
+        <c-input-group>
+          <span cInputGroupText>Email</span>
+          <input cFormControl [(ngModel)]="entities[0].contactMail" formControlName="contactMail" id="contactMail" type="text">
+        </c-input-group>
+        <c-input-group>
+          <span cInputGroupText>Identificación </span>
+          <input cFormControl [(ngModel)]="entities[0].identificationNumber" formControlName="identificationNumber" id="identificationNumber" type="text">
+        </c-input-group>
+        <c-input-group>
+          <span cInputGroupText>Fecha de Expiración</span>
+          <input cFormControl [(ngModel)]="entities[0].expirationDate" formControlName="expirationDate" id="expirationDate" type="text">
+        </c-input-group> 
+        <c-input-group>
+          <span cInputGroupText>Dirección IP</span>
+          <input cFormControl [(ngModel)]="entities[0].ipAddress" formControlName="ipAddress" id="ipAddress" type="text">
+        </c-input-group>
+        <hr />
+        <button (click)="sendForm()" cButton class="m-1" color="success">
+         Enviar
+        </button>
+      </form>
+      <c-badge *ngIf="sendFormData==false&&submit==true" class="ms-6" color="danger">
+        Todos los campos son requeridos*
+      </c-badge>
+      <c-badge *ngIf="sendFormData==true&&submit==true"  class="ms-6" color="success">
+        Información completada satisfactoriamente
+      </c-badge>
+    </div>
+    <div class="modal-footer">
+        <button (click)="modal.dismiss();setInitialValueForm();" type="button" class="btn btn-warning" >Cancelar!</button>
+    </div>
+</ng-template>
+</c-row>
